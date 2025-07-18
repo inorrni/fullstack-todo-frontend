@@ -1,0 +1,9 @@
+2025-07-18 10:49:16 ~ 2025-07-18 17:49:16 (8시간)
+
+// TODO > 프론트엔드 기본 셋팅
+
+1. react 설치
+
+2. theme 설치
+  - @material-ui/core 버전 불일치 (v4 -> v5)
+    -> npm install @mui/material @emotion/react @emotion/styled
