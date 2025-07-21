@@ -1,25 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Todo from './components/Todo';
+import { Container, Paper, List } from '@mui/material';
 
-// 컴포넌트 버전
+// Dummy Data
+const initialTodos = 
+  [
+    { id: 0, title: "Hello world 1", done: true },
+    { id: 1, title: "Hello world 2", done: false },
+  ]
+;
+
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper style={{ margin: 16 }}>
+        <List>
+          {initialTodos.map((todo) => (
+            <Todo
+              key={todo.id}
+              item={todo}
+            />
+          ))}
+        </List>
+      </Paper>
+    </Container>
   );
 }
 
