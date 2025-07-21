@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
+// 컴포넌트 버전
 function App() {
   return (
     <div className="App">
