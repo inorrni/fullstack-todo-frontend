@@ -1,11 +1,41 @@
-2025-07-21 13:40:40 ~ 2025-07-21 17:00:43 (4시간)
+2025-07-22 15:25:15 ~ 2025-07-22 17:52:37 (1.2:4시간)
+2025-07-21 13:40:40 ~ 2025-07-21 17:00:43 (1.1:4시간)
 
 // TODO > 본격적으로 시작!
-p.171 ~ p.181
+p.171 ~ p.192
 
 0. Process (디버깅 시간 단축)
   - HTML Mock을 우선적으로 작성
   - UI에 들어가게 될 가짜 데이터를 작성
 
 1. Todo 리스트
-  - 기본 화면 표출
+  1.1 기본 화면 표출
+  1.2 Todo 추가 기능 개발
+    - input의 onChange의 경우 state를 바로 변경해 줘야한다.
+      ex> onChange={e => setItem({ title: e.target.value })}
+      https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
+    - item은 변경되는데 화면에 바로 적용이 안됨.
+      - (x) useEffect를 써야할까?
+      - 참조하는 값이 동일해서 변하지 않는 거였다.
+      ```(x)
+        const addTodo = (item) => {
+          const newItems = items       // ← 같은 배열을 참조
+          item.id = "ID-" + newItems.length;
+          item.done = false;
+          newItems.push(item)          // ← 기존 배열을 mutate
+          setItems(newItems)           // ← 참조가 동일하므로 React가 “변경된” 걸로 인식 안 함
+          console.log("items : ", items);
+        }
+      ```
+      ```(o)
+        // MEMO > 참조 변경: 배열의 불변성을 지키기 위해 원본 배열을 수정하지 않고 새 배열을 만들어 다른 객체를 setItems에 전달
+        const addTodo = ({ title }) => { // ES6 객체 구조 분해(destructuring): 함수 인자로 들어온 객체에서 title 프로퍼티만 뽑아 변수로 바로 받고, 나머지는 무시
+          setItems(prev =>
+            prev.concat({ // or [...prev, newItem] (전개연산자, es2018 문법이라 구형 빌드에서 추가 코드 생성 됨)
+              id: `ID-${prev.length}`,
+              title,
+              done: false,
+            })
+          );
+        };
+      ```
