@@ -9,6 +9,12 @@ function AddTodo(props) {
     setItem({ title: "" });
   }
 
+  const enterKeyEventHandler = (e) => {
+    if (e.key == 'Enter') {
+      onButtonClick();
+    }
+  }
+
   return (
     <Paper style={{ margin: 16, padding: 16 }}>
       <Grid container>
@@ -18,6 +24,7 @@ function AddTodo(props) {
             fullWidth="true"
             value={item.title}
             onChange={e => setItem({ title: e.target.value })}
+            onKeyUp={enterKeyEventHandler}
           />
         </Grid>
         <Grid sx={1} mb={1}>
