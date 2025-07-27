@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { ListItem, ListItemText, InputBase, Checkbox } from '@mui/material';
+import { ListItem, ListItemText, InputBase, Checkbox, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function Todo({ item }) {
+function Todo({ item, remove }) {
   const todoItem = item;
 
   return (
-    <ListItem>
+    <ListItem
+      disablePadding
+      secondaryAction={
+        <IconButton
+          edge="end"
+          aria-label={`Delete ${todoItem.id}`}
+          onClick={() => remove(todoItem.id)}>
+          <DeleteIcon />
+        </IconButton>
+      }
+    >
       <Checkbox checked={todoItem.done} />
       <ListItemText>
         <InputBase

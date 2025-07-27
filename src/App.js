@@ -1,31 +1,44 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Todo from './components/Todo';
 import { Container, Paper, List } from '@mui/material';
 import AddTodo from './components/AddTodo';
 
-// Dummy Data
 function App() {
-  
   const [items, setItems] = useState(
     [
-      { id: 0, title: "Hello world 1", done: true },
-      { id: 1, title: "Hello world 2", done: false },
+      { id: "id-0", title: "Hello world 1", done: true },
+      { id: "id-1", title: "Hello world 2", done: false },
     ]
   );
+  
+  const isFirstRender = useRef(true);   // ① 컴포넌트 생애주기 동안 유지되는 플래그
 
   useEffect(() => {
-    console.log("items updated:", items);
-  }, [items]);
+    if (isFirstRender.current) {
+      console.log('🔰 initial items:', items);   // 최초 한 번
+      isFirstRender.current = false;            // ② 이후부터는 false
+    }
+  }, []);  
+
+  useEffect(() => {
+    console.log('🔄 items updated:', items);   // 상태가 바뀔 때마다
+  }, [items]);  
 
   const addTodo = ({ title }) => {
     setItems(prev =>
       prev.concat({
-        id: `ID-${prev.length}`,
+        id: `id-${prev.length}`,
         title,
         done: false,
       })
     );
+  };
+
+  const removeTodo = (id) => {
+    setItems(prev =>
+      prev.filter(todo => todo.id !== id)
+    )
   };
 
   return (
@@ -37,6 +50,7 @@ function App() {
             <Todo
               key={todo.id}
               item={todo}
+              remove={removeTodo}
             />
           ))}
         </List>
